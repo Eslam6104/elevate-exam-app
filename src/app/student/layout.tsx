@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import Sidebar from "@/shared/dashboard/sidebar/sidebar";
 import { studentSidebar } from "@/features/student/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function StudentLayout({
   children,
 }: {
