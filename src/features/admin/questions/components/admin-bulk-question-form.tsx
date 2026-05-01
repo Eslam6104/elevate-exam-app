@@ -9,6 +9,7 @@ import { Exam } from "@/features/student/exams/types/exam.types";
 import { bulkCreateQuestionsAction } from "../lib/actions/bulk-create-questions.action";
 import { bulkQuestionSchema, BulkQuestionValues } from "../lib/schemas/bulk-question.schema";
 import { BulkQuestionTabs } from "./form/bulk-question-tabs";
+import { slugify, encodeId } from "@/shared/lib/utils/slug";
 
 export function AdminBulkQuestionForm({ exams, initialExamId }: { exams: Exam[]; initialExamId?: string }) {
   const router = useRouter();
@@ -28,7 +29,12 @@ export function AdminBulkQuestionForm({ exams, initialExamId }: { exams: Exam[];
     setIsSubmitting(false);
     if (res.success) {
       toast.success(`${values.questions.length} questions created successfully`);
-      router.push(`/admin/exams/${values.examId}`);
+      
+      // Find the exam to get its title for the slug
+      const exam = exams.find(e => e.id === values.examId);
+      const slug = exam ? `${slugify(exam.title)}--${encodeId(exam.id)}` : values.examId;
+      
+      router.push(`/admin/exams/${slug}`);
     } else toast.error(res.error || "An error occurred");
   };
 

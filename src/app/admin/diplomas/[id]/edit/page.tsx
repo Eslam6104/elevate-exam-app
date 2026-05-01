@@ -10,10 +10,12 @@ import { createDiplomaSchema, CreateDiplomaValues } from "@/features/admin/diplo
 import { updateDiplomaAction } from "@/features/admin/diplomas/lib/actions/update-diploma.action";
 import { getDiplomaByIdAction } from "@/features/student/diplomas/lib/actions/get-diploma-by-id.action";
 import { toast } from "sonner";
+import { extractIdFromSlug } from "@/shared/lib/utils/slug";
 
 export default function EditDiplomaPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const { id } = use(params);
+  const { id: rawId } = use(params);
+  const id = extractIdFromSlug(rawId);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 

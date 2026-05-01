@@ -8,6 +8,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { Exam } from "@/features/student/exams/types/exam.types";
 import { Question } from "@/features/student/questions/types/question.types";
+import { slugify, encodeId } from "@/shared/lib/utils/slug";
 import {
   createQuestionAction,
   updateQuestionAction,
@@ -58,7 +59,12 @@ export function AdminQuestionForm({
     setIsSubmitting(false);
     if (res.success) {
       toast.success(`Question ${(initialData && initialData.id) ? "updated" : "created"} successfully`);
-      router.push(`/admin/exams/${values.examId}`);
+      
+      // Find the exam to get its title for the slug
+      const exam = exams.find(e => e.id === values.examId);
+      const slug = exam ? `${slugify(exam.title)}--${encodeId(exam.id)}` : values.examId;
+      
+      router.push(`/admin/exams/${slug}`);
     } else toast.error(res.error || "An error occurred");
   };
 

@@ -2,11 +2,13 @@ import { getExamByIdAction } from "@/features/student/exams/lib/actions/get-exam
 import { getDiplomasAction } from "@/features/student/diplomas/lib/actions/get-diplomas.action";
 import { AdminExamForm } from "@/features/admin/exams/components/admin-exam-form";
 import { notFound } from "next/navigation";
+import { extractIdFromSlug } from "@/shared/lib/utils/slug";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminExamEditPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+  const { id: rawId } = await params;
+  const id = extractIdFromSlug(rawId);
   
   const [examRes, diplomasRes] = await Promise.all([
     getExamByIdAction(id),

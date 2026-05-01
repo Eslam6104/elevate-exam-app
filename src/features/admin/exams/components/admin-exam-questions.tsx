@@ -40,14 +40,14 @@ export function AdminExamQuestions({ questions, onDelete }: Props) {
   };
 
   return (
-    <div className="bg-white rounded-sm shadow-sm border border-gray-100 mt-8">
-      <div className="bg-[#2B7FFF] text-white p-4 px-6 flex justify-between items-center">
-        <h3 className="text-base font-semibold tracking-wide">Exam Questions</h3>
+    <div className="bg-white rounded-sm shadow-sm border border-gray-100 mt-10">
+      <div className="bg-[#2B7FFF] text-white py-3.5 px-6 flex justify-between items-center">
+        <h3 className="text-[17px] font-bold tracking-tight">Exam Questions</h3>
         <Link 
           href={`/admin/questions/new?examId=${questions[0]?.examId || ''}`}
-          className="flex items-center gap-2 text-sm font-medium hover:bg-white/10 px-3 py-1.5 rounded transition-colors"
+          className="flex items-center gap-1.5 text-[15px] font-bold hover:bg-white/10 px-2 py-1 rounded transition-colors"
         >
-          <Plus className="w-4 h-4" /> Add Questions
+          <Plus className="w-4 h-4 stroke-[3px]" /> Add Questions
         </Link>
       </div>
 
