@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Diploma } from "../../types/diploma.types";
+import { Diploma } from "@/features/student/diplomas/types/diploma.types";
 
 export function AdminDiplomaDetails({ diploma }: { diploma: Diploma }) {
   return (

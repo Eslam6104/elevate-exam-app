@@ -1,11 +1,12 @@
 import { getDiplomasAction } from "@/features/student/diplomas/lib/actions/get-diplomas.action";
 import DiplomasGrid from "@/features/student/diplomas/components/diplomas-grid";
 import { GraduationCap } from "lucide-react";
+import { Diploma } from "@/features/student/diplomas/types/diploma.types";
 
 export const dynamic = "force-dynamic";
 
 export default async function StudentDiplomasPage() {
-  let diplomas = [];
+  let diplomas: Diploma[] = [];
   try {
     const response = await getDiplomasAction(1, 12);
     diplomas = response?.payload?.data || [];

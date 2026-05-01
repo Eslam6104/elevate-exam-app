@@ -1,6 +1,7 @@
 import { getExamsAction } from "@/features/student/exams/lib/actions/get-exams.action";
 import ExamsHeader from "@/features/student/exams/components/exams-header";
 import ExamsList from "@/features/student/exams/components/exams-list";
+import { Exam } from "@/features/student/exams/types/exam.types";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -9,7 +10,7 @@ interface PageProps {
 export default async function DiplomaExamsPage({ params }: PageProps) {
   const { id } = await params;
   
-  let exams: any[] = [];
+  let exams: Exam[] = [];
   let diplomaTitle = "Diploma";
 
   try {
