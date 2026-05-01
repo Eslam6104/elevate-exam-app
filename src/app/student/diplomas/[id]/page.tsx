@@ -13,7 +13,7 @@ export default async function DiplomaExamsPage({ params }: PageProps) {
   let diplomaTitle = "Diploma";
 
   try {
-    const response = await getExamsAction(id, 1, 100);
+    const response = await getExamsAction(1, 100, undefined, id);
     exams = response?.payload?.data || [];
     
     // Extract the diploma title from the first exam if available
