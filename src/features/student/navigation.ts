@@ -9,4 +9,4 @@ export const studentSidebar = [
     href: "/student/account",
     icon: "user",
   },
-];
+] as const;

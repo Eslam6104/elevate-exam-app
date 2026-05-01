@@ -10,7 +10,7 @@ type SidebarItemType = {
 };
 
 type Props = {
-  items: SidebarItemType[];
+  items: readonly SidebarItemType[];
   variant?: "student" | "admin";
 };
 
