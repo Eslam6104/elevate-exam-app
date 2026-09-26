@@ -5,11 +5,14 @@ import { Exam } from "@/features/student/exams/types/exam.types";
 
 export function AdminExamDetails({ exam }: { exam: Exam }) {
   const getDisplayUrl = (url: string) => {
-    if (!url) return "";
+    if (!url) return "/placeholder.svg";
     if (url.startsWith("http") || url.startsWith("blob:") || url.startsWith("data:")) return url;
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://exam-app.elevate-bootcamp.cloud/api";
-    const origin = baseUrl.replace(/\/api\/?$/, "");
-    return `${origin}${url.startsWith("/") ? url : `/${url}`}`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (baseUrl && baseUrl.startsWith("http")) {
+      const origin = baseUrl.replace(/\/api(\/v1)?\/?$/, "");
+      return `${origin}${url.startsWith("/") ? url : `/${url}`}`;
+    }
+    return url.startsWith("/") ? url : `/${url}`;
   };
 
   const details = [

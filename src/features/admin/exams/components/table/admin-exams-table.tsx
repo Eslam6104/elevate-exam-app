@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Eye, Edit, Trash2 } from "lucide-react";
+import { Eye, Edit, Trash2, Plus, AlertCircle } from "lucide-react";
 import { Exam } from "@/features/student/exams/types/exam.types";
 import { AdminActionMenu, ActionOption } from "@/features/admin/shared/components/admin-action-menu";
 import { AdminSortMenu, SortOption } from "@/features/admin/shared/components/admin-sort-menu";
 import { toast } from "sonner";
 import { slugify, encodeId } from "@/shared/lib/utils/slug";
+import { deleteExamAction } from "../../lib/actions/delete-exam.action";
 
 export function AdminExamsTable({ exams }: { exams: Exam[] }) {
   const router = useRouter();
@@ -39,7 +41,13 @@ export function AdminExamsTable({ exams }: { exams: Exam[] }) {
       action: {
         label: "Delete",
         onClick: async () => {
-          toast.info("Delete not implemented yet");
+          const res = await deleteExamAction(id);
+          if (res.success) {
+            toast.success("Exam deleted successfully");
+            router.refresh();
+          } else {
+            toast.error(res.error || "Failed to delete exam");
+          }
         }
       },
       cancel: { label: "Cancel", onClick: () => {} }
@@ -56,11 +64,14 @@ export function AdminExamsTable({ exams }: { exams: Exam[] }) {
   };
 
   const getDisplayUrl = (url: string) => {
-    if (!url) return "";
+    if (!url) return "/placeholder.svg";
     if (url.startsWith("http") || url.startsWith("blob:") || url.startsWith("data:")) return url;
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://exam-app.elevate-bootcamp.cloud/api";
-    const origin = baseUrl.replace(/\/api\/?$/, "");
-    return `${origin}${url.startsWith("/") ? url : `/${url}`}`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (baseUrl && baseUrl.startsWith("http")) {
+      const origin = baseUrl.replace(/\/api(\/v1)?\/?$/, "");
+      return `${origin}${url.startsWith("/") ? url : `/${url}`}`;
+    }
+    return url.startsWith("/") ? url : `/${url}`;
   };
 
   // Define grid columns to match the design: Image, Title, Diploma, Questions, Sort
@@ -124,8 +135,28 @@ export function AdminExamsTable({ exams }: { exams: Exam[] }) {
         ))}
 
         {exams.length === 0 && (
-          <div className="py-20 text-center text-gray-400 italic bg-gray-50/30">
-            No exams found matching your filters.
+          <div className="py-16 flex flex-col items-center justify-center text-center p-6 bg-gray-50/40">
+            <div className="w-12 h-12 rounded-full bg-blue-50 text-[#2B7FFF] flex items-center justify-center mb-3 shadow-xs">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+            <p className="text-gray-800 font-semibold text-base mb-1">
+              No exams found matching your filters.
+            </p>
+            <p className="text-gray-500 text-sm max-w-md mb-5">
+              {searchParams.get("diplomaId") && searchParams.get("diplomaId") !== "all"
+                ? "This diploma does not have any exams created yet. You can create the first exam now."
+                : "Try adjusting your search criteria or create a new exam."}
+            </p>
+            <Link
+              href={
+                searchParams.get("diplomaId") && searchParams.get("diplomaId") !== "all"
+                  ? `/admin/exams/new?diplomaId=${searchParams.get("diplomaId")}`
+                  : "/admin/exams/new"
+              }
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00D084] hover:bg-emerald-600 text-white rounded-sm text-sm font-medium transition-colors shadow-sm"
+            >
+              <Plus className="w-4 h-4" /> Create New Exam
+            </Link>
           </div>
         )}
       </div>

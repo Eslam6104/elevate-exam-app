@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grad)" />
+  <circle cx="400" cy="240" r="180" fill="url(#glow)" />
+  <g transform="translate(340, 180)" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" transform="scale(3.5)" />
+    <path d="M6 6h10M6 10h10" transform="scale(3.5)" />
+  </g>
+  <text x="400" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1">
+    ELEVATE EXAM PLATFORM
+  </text>
+  <text x="400" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#bfdbfe" text-anchor="middle">
+    Course &amp; Diploma Track
+  </text>
+</svg>

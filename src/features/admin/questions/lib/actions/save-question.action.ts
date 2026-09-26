@@ -10,6 +10,8 @@ export const updateQuestionAction = async (id: string, data: any) => {
     const response = await apiClient.put(`/questions/${id}`, payload);
     revalidatePath(`/admin/exams/${examId}`);
     revalidatePath(`/admin/questions/${id}`);
+    revalidatePath("/admin/exams");
+    revalidatePath(`/student/exams/${examId}`);
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error(`Error updating question ${id}:`, error.response?.data || error.message);
@@ -27,6 +29,8 @@ export const createQuestionAction = async (data: any) => {
     console.log(`Creating question with payload:`, JSON.stringify(payload, null, 2));
     const response = await apiClient.post(`/questions`, payload);
     revalidatePath(`/admin/exams/${examId}`);
+    revalidatePath("/admin/exams");
+    revalidatePath(`/student/exams/${examId}`);
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error(`Error creating question:`, error.response?.data || error.message);

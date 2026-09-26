@@ -4,7 +4,14 @@ import { Diploma } from "@/features/student/diplomas/types/diploma.types";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminExamNewPage() {
+export default async function AdminExamNewPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ diplomaId?: string }>;
+}) {
+  const resolvedParams = searchParams ? await searchParams : {};
+  const defaultDiplomaId = resolvedParams.diplomaId;
+
   let diplomas: Diploma[] = [];
   try {
     const res = await getDiplomasAction();
@@ -21,7 +28,7 @@ export default async function AdminExamNewPage() {
         <span className="text-blue-500">Create New Exam</span>
       </div>
       
-      <AdminExamForm diplomas={diplomas} />
+      <AdminExamForm diplomas={diplomas} defaultDiplomaId={defaultDiplomaId} />
     </div>
   );
 }

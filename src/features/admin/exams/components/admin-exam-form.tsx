@@ -15,9 +15,10 @@ import { ImageUploadDropzone } from "@/shared/ui/image-upload-dropzone";
 interface Props {
   initialData?: Exam;
   diplomas: Diploma[];
+  defaultDiplomaId?: string;
 }
 
-export function AdminExamForm({ initialData, diplomas }: Props) {
+export function AdminExamForm({ initialData, diplomas, defaultDiplomaId }: Props) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -29,7 +30,7 @@ export function AdminExamForm({ initialData, diplomas }: Props) {
       duration: initialData.duration,
       diplomaId: initialData.diplomaId,
       image: initialData.image || ""
-    } : { title: "", description: "", duration: 60, diplomaId: "", image: "" }
+    } : { title: "", description: "", duration: 60, diplomaId: defaultDiplomaId || "", image: "" }
   });
 
   const onSubmit = async (values: ExamFormValues) => {
@@ -42,6 +43,7 @@ export function AdminExamForm({ initialData, diplomas }: Props) {
     if (res.success) {
       toast.success(`Exam ${initialData ? "updated" : "created"} successfully`);
       router.push("/admin/exams");
+      router.refresh();
     } else {
       toast.error(res.error || "An error occurred");
     }

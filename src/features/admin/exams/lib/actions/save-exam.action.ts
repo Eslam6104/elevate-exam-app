@@ -6,6 +6,11 @@ export const createExamAction = async (data: any) => {
   try {
     const response = await apiClient.post("/exams", data);
     revalidatePath("/admin/exams");
+    revalidatePath("/admin/diplomas");
+    revalidatePath("/student/diplomas");
+    if (data?.diplomaId) {
+      revalidatePath(`/student/diplomas/${data.diplomaId}`);
+    }
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error("Error creating exam:", error.response?.data || error.message);
@@ -21,6 +26,12 @@ export const updateExamAction = async (id: string, data: any) => {
     const response = await apiClient.put(`/exams/${id}`, data);
     revalidatePath("/admin/exams");
     revalidatePath(`/admin/exams/${id}`);
+    revalidatePath("/admin/diplomas");
+    revalidatePath("/student/diplomas");
+    revalidatePath(`/student/exams/${id}`);
+    if (data?.diplomaId) {
+      revalidatePath(`/student/diplomas/${data.diplomaId}`);
+    }
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error("Error updating exam:", error.response?.data || error.message);

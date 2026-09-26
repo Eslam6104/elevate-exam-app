@@ -1,10 +1,15 @@
 import axios from "axios";
+import { getApiBaseUrl } from "@/shared/lib/apis/api-client";
 
 const authClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+authClient.interceptors.request.use((config) => {
+  config.baseURL = getApiBaseUrl();
+  return config;
 });
 
 export const loginApi = (data: {

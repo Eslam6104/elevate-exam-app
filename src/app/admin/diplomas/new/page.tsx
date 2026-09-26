@@ -27,6 +27,7 @@ export default function AddNewDiplomaPage() {
     if (result.success) {
       toast.success("Diploma created successfully!");
       router.push("/admin/diplomas");
+      router.refresh();
     } else {
       toast.error(result.error || "Something went wrong.");
     }

@@ -6,6 +6,8 @@ export const deleteDiplomaAction = async (id: string) => {
   try {
     const response = await deleteDiplomaApi(id);
     revalidatePath("/admin/diplomas");
+    revalidatePath("/admin/exams");
+    revalidatePath("/student/diplomas");
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error("Failed to delete diploma:", error.response?.data || error);

@@ -6,6 +6,8 @@ export const deleteQuestionAction = async (id: string, examId: string) => {
   try {
     const response = await apiClient.delete(`/questions/${id}`);
     revalidatePath(`/admin/exams/${examId}`);
+    revalidatePath("/admin/exams");
+    revalidatePath(`/student/exams/${examId}`);
     return { status: true, data: response.data };
   } catch (error: any) {
     console.error(`Error deleting question ${id}:`, error.response?.data || error.message);

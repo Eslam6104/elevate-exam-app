@@ -13,7 +13,18 @@ export const getDiplomasAction = async (
     const response = await getDiplomasApi(page, limit, title, immutable, sortBy, sortOrder);
     return response.data;
   } catch (error) {
-    console.error("Error fetching diplomas:", error);
-    throw new Error("Failed to load diplomas");
+    console.warn("HTTP fetch diplomas failed, using direct db fallback:", error);
+    try {
+      const { db } = await import("@/lib/backend/db");
+      const { paginate } = await import("@/lib/backend/helpers");
+      let data = [...db.diplomas];
+      if (title) data = data.filter((d) => d.title.toLowerCase().includes(title.toLowerCase()));
+      if (immutable) data = data.filter((d) => String(d.immutable) === immutable);
+      data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return { status: true, code: 200, payload: paginate(data, page, limit) };
+    } catch (fallbackErr) {
+      console.error("Direct fallback also failed:", fallbackErr);
+      throw new Error("Failed to load diplomas");
+    }
   }
 };

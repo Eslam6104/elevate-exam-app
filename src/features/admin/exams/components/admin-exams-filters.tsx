@@ -32,6 +32,7 @@ export function AdminExamsFilters({ diplomas }: { diplomas: Diploma[] }) {
 
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
+      router.refresh();
     });
   };
 
@@ -41,6 +42,7 @@ export function AdminExamsFilters({ diplomas }: { diplomas: Diploma[] }) {
     setImmutable("all");
     startTransition(() => {
       router.push(pathname);
+      router.refresh();
     });
   };
 

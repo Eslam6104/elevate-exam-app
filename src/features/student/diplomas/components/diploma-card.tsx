@@ -15,11 +15,13 @@ export default function DiplomaCard({ diploma }: DiplomaCardProps) {
         {/* Background Image */}
         {/* Using a standard img tag to prevent unconfigured hostname errors with next/image */}
         <img
-          src={diploma.image || "/placeholder-image.jpg"}
+          src={diploma.image || "/placeholder-image.svg"}
           alt={diploma.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x500?text=No+Image";
+            const target = e.target as HTMLImageElement;
+            target.onerror = null;
+            target.src = "/placeholder-image.svg";
           }}
         />
 

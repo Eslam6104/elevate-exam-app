@@ -15,6 +15,7 @@ export function AdminDiplomasFilters() {
     if (immutable) params.set("immutable", immutable); else params.delete("immutable");
     params.set("page", "1");
     router.push(`?${params.toString()}`);
+    router.refresh();
   };
   const handleClear = () => {
     setTitle(""); 
@@ -24,6 +25,7 @@ export function AdminDiplomasFilters() {
     params.delete("immutable"); 
     params.set("page", "1");
     router.push(`?${params.toString()}`);
+    router.refresh();
   };
   return (
     <AdminFiltersWrapper onApply={handleApply} onClear={handleClear}>

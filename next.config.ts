@@ -9,12 +9,29 @@ const nextConfig: NextConfig = {
   },
   reactCompiler: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'exam-app.elevate-bootcamp.cloud',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/uploads/:id',
+        destination: '/api/v1/uploads/:id',
+      },
+      {
+        source: '/api/uploads/:id',
+        destination: '/api/v1/uploads/:id',
+      },
+    ];
   },
 };
 

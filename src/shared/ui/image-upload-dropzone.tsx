@@ -33,10 +33,12 @@ export function ImageUploadDropzone({ value, onChange }: Props) {
     if (!value || typeof value !== 'string') return "";
     if (value.startsWith("http") || value.startsWith("blob:") || value.startsWith("data:")) return value;
     
-    // Construct full URL from relative backend path
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://exam-app.elevate-bootcamp.cloud/api";
-    const origin = baseUrl.replace(/\/api\/?$/, "");
-    return `${origin}${value.startsWith("/") ? value : `/${value}`}`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    if (baseUrl && baseUrl.startsWith("http")) {
+      const origin = baseUrl.replace(/\/api(\/v1)?\/?$/, "");
+      return `${origin}${value.startsWith("/") ? value : `/${value}`}`;
+    }
+    return value.startsWith("/") ? value : `/${value}`;
   };
 
   const handleDrag = (e: React.DragEvent) => {

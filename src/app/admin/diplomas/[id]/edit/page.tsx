@@ -48,6 +48,7 @@ export default function EditDiplomaPage({ params }: { params: Promise<{ id: stri
     if (result.success) {
       toast.success("Diploma updated successfully!");
       router.push("/admin/diplomas");
+      router.refresh();
     } else {
       toast.error(result.error || "Something went wrong.");
     }

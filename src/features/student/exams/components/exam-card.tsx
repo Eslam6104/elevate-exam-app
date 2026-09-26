@@ -18,11 +18,13 @@ export default function ExamCard({ exam }: ExamCardProps) {
       {/* Icon / Image - Smaller Size */}
       <div className="w-16 h-16 flex-none bg-[#e0efff] border border-[#b3d4ff] flex items-center justify-center p-2">
         <img
-          src={exam.image || "/placeholder.jpg"}
+          src={exam.image || "/placeholder.svg"}
           alt={exam.title}
           className="w-full h-full object-contain"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = "https://via.placeholder.com/80?text=Ex";
+            const target = e.target as HTMLImageElement;
+            target.onerror = null;
+            target.src = "/placeholder.svg";
           }}
         />
       </div>

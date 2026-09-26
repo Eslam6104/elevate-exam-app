@@ -6,6 +6,10 @@ export const updateDiplomaAction = async (id: string, data: { title: string; des
   try {
     const response = await updateDiplomaApi(id, data);
     revalidatePath("/admin/diplomas");
+    revalidatePath(`/admin/diplomas/${id}`);
+    revalidatePath("/admin/exams");
+    revalidatePath("/student/diplomas");
+    revalidatePath(`/student/diplomas/${id}`);
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error("Failed to update diploma:", error.response?.data || error);

@@ -6,6 +6,9 @@ export const createDiplomaAction = async (data: { title: string; description: st
   try {
     const response = await createDiplomaApi(data);
     revalidatePath("/admin/diplomas");
+    revalidatePath("/admin/exams");
+    revalidatePath("/admin/exams/new");
+    revalidatePath("/student/diplomas");
     return { success: true, data: response.data };
   } catch (error: any) {
     console.error("Failed to create diploma:", error.response?.data || error);

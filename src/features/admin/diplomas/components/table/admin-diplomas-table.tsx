@@ -27,6 +27,7 @@ export function AdminDiplomasTable({ diplomas }: { diplomas: Diploma[] }) {
           const res = await deleteDiplomaAction(id);
           if (res.success) {
             toast.success("Diploma deleted successfully");
+            router.refresh();
           } else {
             toast.error(res.error || "Failed to delete diploma");
           }

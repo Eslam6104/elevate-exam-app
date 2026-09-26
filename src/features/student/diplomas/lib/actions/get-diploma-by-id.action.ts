@@ -6,7 +6,14 @@ export const getDiplomaByIdAction = async (id: string) => {
     const response = await getDiplomaByIdApi(id);
     return response.data;
   } catch (error) {
-    console.error("Failed to get diploma by id:", error);
-    throw new Error("Failed to load diploma details.");
+    console.warn("HTTP fetch diploma by id failed, using direct db fallback:", error);
+    try {
+      const { db } = await import("@/lib/backend/db");
+      const diploma = db.diplomas.find((d) => d.id === id);
+      if (!diploma) throw new Error("Diploma not found");
+      return { status: true, code: 200, payload: { diploma } };
+    } catch {
+      throw new Error("Failed to load diploma details.");
+    }
   }
 };
