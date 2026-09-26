@@ -52,7 +52,7 @@ export default function Sidebar({ items, variant = "student" }: Props) {
       </div>
 
       {/* user */}
-      <UserCard />
+      <UserCard variant={variant} />
     </aside>
   );
 }
