@@ -9,6 +9,7 @@ import { Input } from "@/shared/ui/input"
 import { Button } from "@/shared/ui/button"
 import { Label } from "@/shared/ui/label"
 import { toast } from "sonner"
+import Link from "next/link"
 
 export function OtpStep() {
 
@@ -91,10 +92,17 @@ export function OtpStep() {
 
       <Button
         type="submit"
-        className="w-full"
+        className="w-full h-12 bg-(--primary) text-white"
       >
         Verify Code
       </Button>
+
+      <p className="text-sm text-muted-foreground text-center">
+        Already have an account?{" "}
+        <Link href="/login" className="text-(--primary) font-semibold hover:underline cursor-pointer">
+          Login
+        </Link>
+      </p>
 
     </form>
   )

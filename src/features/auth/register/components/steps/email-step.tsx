@@ -10,6 +10,7 @@ import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { EmailSentSuccess } from "@/features/auth/components/email-sent-success";
+import Link from "next/link";
 
 export function EmailStep() {
   const { setData, nextStep } = useRegister();
@@ -73,7 +74,10 @@ export function EmailStep() {
       </div>
       <Button type="submit" disabled={form.formState.isSubmitting} className="w-full bg-(--primary) text-white h-12">Next →</Button>
       <p className="text-sm text-muted-foreground text-center">
-        Already have an account? <span className="text-(--primary)">Login</span>
+        Already have an account?{" "}
+        <Link href="/login" className="text-(--primary) font-semibold hover:underline cursor-pointer">
+          Login
+        </Link>
       </p>
     </form>
   );

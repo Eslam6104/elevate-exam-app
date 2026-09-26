@@ -2,6 +2,8 @@
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { passwordSchema } from "../../lib/schemas/register.schema"
 import { registerAction } from "../../lib/actions/register.action"
 import { useRegister } from "../../context/register-context"
@@ -11,7 +13,7 @@ import { Label } from "@/shared/ui/label"
 import { toast } from "sonner"
 
 export function PasswordStep() {
-
+  const router = useRouter()
   const { data } = useRegister()
 
   const form = useForm({
@@ -19,20 +21,18 @@ export function PasswordStep() {
   })
 
   const onSubmit = async (values: any) => {
-
     try {
-
       await registerAction({
         ...data,
         ...values,
       })
 
-      toast.success("Account created successfully")
-
+      toast.success("Account created successfully! Redirecting to login...")
+      setTimeout(() => {
+        router.push("/login")
+      }, 1200)
     } catch (error: any) {
-
       toast.error(error.message)
-
     }
   }
 
@@ -77,10 +77,18 @@ export function PasswordStep() {
       </div>
 
       <Button
-        className="w-full"
+        type="submit"
+        className="w-full bg-(--primary) text-white h-12"
       >
         Create Account
       </Button>
+
+      <p className="text-sm text-muted-foreground text-center">
+        Already have an account?{" "}
+        <Link href="/login" className="text-(--primary) font-semibold hover:underline cursor-pointer">
+          Login
+        </Link>
+      </p>
 
     </form>
   )

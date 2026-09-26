@@ -8,6 +8,7 @@ import { Input } from "@/shared/ui/input"
 import { Button } from "@/shared/ui/button"
 import { Label } from "@/shared/ui/label"
 import { toast } from "sonner"
+import Link from "next/link"
 
 export function ProfileStep() {
 
@@ -81,9 +82,16 @@ export function ProfileStep() {
 
       </div>
 
-      <Button className="w-full">
+      <Button className="w-full h-12 bg-(--primary) text-white">
         Next →
       </Button>
+
+      <p className="text-sm text-muted-foreground text-center">
+        Already have an account?{" "}
+        <Link href="/login" className="text-(--primary) font-semibold hover:underline cursor-pointer">
+          Login
+        </Link>
+      </p>
 
     </form>
   )
