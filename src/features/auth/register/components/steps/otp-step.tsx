@@ -41,9 +41,18 @@ export function OtpStep() {
     }
   }
 
+  const { errors } = form.formState;
+
+  const onInvalid = (fieldErrors: any) => {
+    const errorKeys = Object.keys(fieldErrors);
+    if (errorKeys.length > 0) {
+      toast.error(fieldErrors[errorKeys[0]]?.message || "Please enter the 6-digit verification code");
+    }
+  };
+
   return (
     <form
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(onSubmit, onInvalid)}
       className="space-y-8"
     >
 
@@ -85,14 +94,19 @@ export function OtpStep() {
 
         <Input
           placeholder="123456"
+          maxLength={6}
           {...form.register("code")}
+          className={errors.code ? "border-red-500 focus-visible:ring-red-500 tracking-widest text-center text-lg font-mono" : "tracking-widest text-center text-lg font-mono"}
         />
+        {errors.code && (
+          <p className="text-red-500 text-xs mt-1">{errors.code.message?.toString()}</p>
+        )}
 
       </div>
 
       <Button
         type="submit"
-        className="w-full h-12 bg-(--primary) text-white"
+        className="w-full h-12 bg-(--primary) text-white font-medium text-base shadow-sm"
       >
         Verify Code
       </Button>

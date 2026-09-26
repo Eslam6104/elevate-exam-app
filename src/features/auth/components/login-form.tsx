@@ -39,7 +39,11 @@ export default function LoginForm() {
       });
 
       if (result?.error) {
-        setError(result.error);
+        const errorMsg = result.error === "CredentialsSignin"
+          ? "Invalid username or password. Please verify your credentials or register a new account."
+          : result.error;
+        setError(errorMsg);
+        toast.error(errorMsg);
         setLoading(false);
         setLoadingRole(null);
         return;
