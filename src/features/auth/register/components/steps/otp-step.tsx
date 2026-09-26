@@ -16,6 +16,9 @@ export function OtpStep() {
 
   const form = useForm({
     resolver: zodResolver(otpSchema),
+    defaultValues: {
+      code: data.otp || "",
+    },
   })
 
   const onSubmit = async (values: any) => {
@@ -57,6 +60,21 @@ export function OtpStep() {
           Please enter the 6-digits code we have sent to:
           <span className="font-medium"> {data.email}</span>
         </p>
+
+        {data.otp && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center justify-between text-sm mt-3">
+            <span className="text-blue-700 text-xs">
+              Your Code: <strong className="font-mono font-bold text-sm tracking-wider">{data.otp}</strong>
+            </span>
+            <button
+              type="button"
+              onClick={() => form.setValue("code", data.otp!)}
+              className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded font-medium transition-colors"
+            >
+              Fill Code
+            </button>
+          </div>
+        )}
 
       </div>
 

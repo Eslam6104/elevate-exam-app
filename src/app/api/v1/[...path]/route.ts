@@ -108,8 +108,22 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     if (!email) return json({ status: false, message: "Email is required" }, 400);
     const code = generateOTP();
     db.otpCodes[email as string] = { code, expiresAt: Date.now() + 10 * 60 * 1000 };
-    console.log(`[OTP] Email: ${email}, Code: ${code}`);
-    return json({ status: true, message: "Verification code sent to your email" });
+    
+    let sentRealEmail = false;
+    try {
+      const { sendOtpEmail } = await import("@/lib/backend/email-service");
+      const res = await sendOtpEmail({ email: email as string, code, type: "verification" });
+      sentRealEmail = res.sentRealEmail;
+    } catch (e) {
+      console.warn("Email service dispatch error:", e);
+    }
+
+    return json({
+      status: true,
+      message: sentRealEmail ? "Verification code sent to your email inbox" : "Verification code generated successfully",
+      payload: { code, sentRealEmail },
+      code,
+    });
   }
 
   // ── auth/confirm-email-verification ──
@@ -135,7 +149,15 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     if (!user) return json({ status: true, message: "If the email exists, a reset link has been sent" });
     const resetToken = uuidv4();
     db.resetTokens[resetToken] = { email: email as string, expiresAt: Date.now() + 60 * 60 * 1000 };
-    return json({ status: true, message: "Password reset link sent to your email", resetToken });
+    
+    try {
+      const { sendOtpEmail } = await import("@/lib/backend/email-service");
+      await sendOtpEmail({ email: email as string, code: resetToken.slice(0, 6).toUpperCase(), type: "password_reset" });
+    } catch (e) {
+      console.warn("Forgot password email error:", e);
+    }
+
+    return json({ status: true, message: "Password reset link sent to your email", resetToken, payload: { resetToken, code: resetToken.slice(0, 6).toUpperCase() } });
   }
 
   // ── auth/reset-password ──

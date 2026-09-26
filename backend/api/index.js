@@ -458,7 +458,12 @@ app.post("/api/auth/send-email-verification", (req, res) => {
 
   console.log(`[OTP] Email: ${email}, Code: ${code}`);
 
-  res.json({ status: true, message: "Verification code sent to your email" });
+  res.json({
+    status: true,
+    message: "Verification code sent to your email",
+    code,
+    payload: { code },
+  });
 });
 
 // POST /api/auth/confirm-email-verification

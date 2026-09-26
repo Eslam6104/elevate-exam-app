@@ -10,6 +10,7 @@ type RegisterData = {
   phone?: string
   password?: string
   confirmPassword?: string
+  otp?: string
 }
 
 type RegisterContextType = {
