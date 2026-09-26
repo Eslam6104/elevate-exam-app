@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
+import fs from "fs";
+import path from "path";
 
 // ─── Types ────────────────────────────────────────────────
 export interface DbUser {
@@ -170,6 +172,21 @@ function createDatabase(): Database {
       role: "student",
       createdAt: pastDate(80),
       updatedAt: pastDate(2),
+    },
+    {
+      id: uuidv4(),
+      username: "eslam1234",
+      email: "eslam1234@exam-platform.com",
+      password: bcrypt.hashSync("Eslam123$", 10),
+      firstName: "Eslam",
+      lastName: "Student",
+      phone: "01012345678",
+      profilePhoto: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+      emailVerified: true,
+      phoneVerified: true,
+      role: "student",
+      createdAt: pastDate(24),
+      updatedAt: pastDate(1),
     }
   );
 
@@ -204,6 +221,11 @@ function createDatabase(): Database {
       title: "UI/UX Design & Product Architecture",
       description: "User research methodologies, wireframing, interactive prototyping in Figma, and design systems for enterprise web applications.",
       image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      title: "Frontend Development",
+      description: "Master modern front-end engineering: HTML5 semantic markup, modern CSS3/Tailwind layouts, JavaScript ES6+, TypeScript, React 19, and Next.js App Router.",
+      image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
     },
   ];
 
@@ -721,6 +743,116 @@ function createDatabase(): Database {
         },
       ],
     },
+
+    // Frontend Development Exams
+    {
+      title: "HTML5, Modern CSS & Responsive Layouts",
+      description: "Master semantic structure, Flexbox, Grid, CSS custom properties, and responsive UI design patterns.",
+      duration: 30,
+      diplomaId: diplomaIds[6],
+      image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=400&q=80",
+      questions: [
+        {
+          text: "Which CSS unit is relative to the root font-size of the document (<html>)?",
+          answers: [
+            { text: "rem", isCorrect: true },
+            { text: "em", isCorrect: false },
+            { text: "px", isCorrect: false },
+            { text: "%", isCorrect: false },
+          ],
+        },
+        {
+          text: "What does CSS property 'box-sizing: border-box' do?",
+          answers: [
+            { text: "Includes padding and border within the element's total width and height", isCorrect: true },
+            { text: "Adds an automatic drop shadow to the border", isCorrect: false },
+            { text: "Stops margins from collapsing", isCorrect: false },
+            { text: "Hides overflowing content", isCorrect: false },
+          ],
+        },
+        {
+          text: "Which HTML5 element is most appropriate for primary site navigation links?",
+          answers: [
+            { text: "<nav>", isCorrect: true },
+            { text: "<header>", isCorrect: false },
+            { text: "<menu>", isCorrect: false },
+            { text: "<section>", isCorrect: false },
+          ],
+        },
+        {
+          text: "In CSS Flexbox, what is the default value of 'flex-direction'?",
+          answers: [
+            { text: "row", isCorrect: true },
+            { text: "column", isCorrect: false },
+            { text: "row-reverse", isCorrect: false },
+            { text: "initial", isCorrect: false },
+          ],
+        },
+        {
+          text: "Which CSS media query feature allows applying styles specifically for users on dark mode settings?",
+          answers: [
+            { text: "prefers-color-scheme: dark", isCorrect: true },
+            { text: "color-mode: dark", isCorrect: false },
+            { text: "theme: dark", isCorrect: false },
+            { text: "inverted-colors: true", isCorrect: false },
+          ],
+        },
+      ],
+    },
+    {
+      title: "React 19 & Modern Frontend Architecture",
+      description: "Component lifecycle, Hooks (useState, useEffect, useMemo, useCallback), Context API, and state management.",
+      duration: 45,
+      diplomaId: diplomaIds[6],
+      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=400&q=80",
+      questions: [
+        {
+          text: "Which hook should be used to perform side effects such as data fetching or DOM subscriptions in React?",
+          answers: [
+            { text: "useEffect", isCorrect: true },
+            { text: "useState", isCorrect: false },
+            { text: "useMemo", isCorrect: false },
+            { text: "useRef", isCorrect: false },
+          ],
+        },
+        {
+          text: "Why should keys passed to list elements in React be unique and stable?",
+          answers: [
+            { text: "They help React efficiently identify which elements have changed, been added, or removed during diffing", isCorrect: true },
+            { text: "They are required by CSS styling selectors", isCorrect: false },
+            { text: "They provide data encryption for state variables", isCorrect: false },
+            { text: "They allow indexing in database tables", isCorrect: false },
+          ],
+        },
+        {
+          text: "What is the primary purpose of React.memo?",
+          answers: [
+            { text: "Skips re-rendering a component when its incoming props have not changed", isCorrect: true },
+            { text: "Creates a persistent localStorage entry", isCorrect: false },
+            { text: "Initializes React Redux store", isCorrect: false },
+            { text: "Memoizes asynchronous API promises", isCorrect: false },
+          ],
+        },
+        {
+          text: "What does the 'useCallback' hook return?",
+          answers: [
+            { text: "A memoized version of the callback function that only changes when its dependencies change", isCorrect: true },
+            { text: "The result of calling the function", isCorrect: false },
+            { text: "A mutable ref object", isCorrect: false },
+            { text: "A boolean indicating if the function executed", isCorrect: false },
+          ],
+        },
+        {
+          text: "In Next.js App Router, which directive denotes that a component can use interactive client-side hooks like useState?",
+          answers: [
+            { text: "\"use client\"", isCorrect: true },
+            { text: "\"use interactive\"", isCorrect: false },
+            { text: "\"use state\"", isCorrect: false },
+            { text: "\"client-side\"", isCorrect: false },
+          ],
+        },
+      ],
+    },
   ];
 
   const examIds: string[] = [];
@@ -894,10 +1026,76 @@ function createDatabase(): Database {
   return db;
 }
 
-// Singleton — survives across requests within same Vercel function instance
+// ─── Disk Persistence Setup ─────────────────────────────
+const DB_FILE_PATH = path.resolve(process.cwd(), "data", "exam-db.json");
+
+export function saveDb(): void {
+  try {
+    const dataDir = path.dirname(DB_FILE_PATH);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(db, null, 2), "utf8");
+  } catch (err) {
+    console.warn("[DB] Failed to persist exam-db.json to disk:", err);
+  }
+}
+
+function loadOrCreateDatabase(): Database {
+  try {
+    if (fs.existsSync(DB_FILE_PATH)) {
+      const raw = fs.readFileSync(DB_FILE_PATH, "utf8");
+      if (raw && raw.trim().length > 0) {
+        const parsed = JSON.parse(raw) as Database;
+        if (Array.isArray(parsed.diplomas) && Array.isArray(parsed.exams)) {
+          // If Frontend Development is missing, inject it from seed
+          const hasFrontend = parsed.diplomas.some((d) =>
+            d.title.toLowerCase().includes("front")
+          );
+          if (!hasFrontend) {
+            const initial = createDatabase();
+            const frontendDiploma = initial.diplomas.find((d) => d.title.toLowerCase().includes("front"));
+            if (frontendDiploma) {
+              parsed.diplomas.push(frontendDiploma);
+              const frontendExams = initial.exams.filter((e) => e.diplomaId === frontendDiploma.id);
+              parsed.exams.push(...frontendExams);
+              const frontendExamIds = frontendExams.map((e) => e.id);
+              const frontendQuestions = initial.questions.filter((q) => frontendExamIds.includes(q.examId));
+              parsed.questions.push(...frontendQuestions);
+            }
+          }
+          // Ensure eslam1234 exists
+          const hasEslam = parsed.users.some((u) => u.username === "eslam1234");
+          if (!hasEslam) {
+            const initial = createDatabase();
+            const eslamUser = initial.users.find((u) => u.username === "eslam1234");
+            if (eslamUser) parsed.users.push(eslamUser);
+          }
+          return parsed;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("[DB] Failed to read exam-db.json, recreating initial database:", err);
+  }
+
+  const initial = createDatabase();
+  try {
+    const dataDir = path.dirname(DB_FILE_PATH);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(initial, null, 2), "utf8");
+  } catch (err) {
+    console.warn("[DB] Failed to save initial database to disk:", err);
+  }
+  return initial;
+}
+
+// Singleton — survives across requests within same process and reloads from disk
 const globalForDb = globalThis as unknown as { __examDb?: Database };
 if (!globalForDb.__examDb) {
-  globalForDb.__examDb = createDatabase();
+  globalForDb.__examDb = loadOrCreateDatabase();
 }
 
 export const db: Database = globalForDb.__examDb;

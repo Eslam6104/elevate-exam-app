@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
-import { db } from "@/lib/backend/db";
+import { db, saveDb } from "@/lib/backend/db";
 import {
   generateToken, requireAuth, requireAdmin, verifyToken,
   json, notFound, paginate, logAudit, generateOTP, sanitizeUser,
@@ -31,7 +31,7 @@ function getUser(request: NextRequest): TokenPayload | null {
 // ═══════════════════════════════════════════════════════════
 //  POST handler
 // ═══════════════════════════════════════════════════════════
-export async function POST(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+async function handlePOST(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const route = path.join("/");
   let body: Record<string, unknown> = {};
@@ -302,6 +302,14 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   return json({ status: false, message: `Route POST /api/v1/${route} not found` }, 404);
 }
 
+export async function POST(request: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
+  const res = await handlePOST(request, ctx);
+  if (res.status >= 200 && res.status < 400) {
+    saveDb();
+  }
+  return res;
+}
+
 // ═══════════════════════════════════════════════════════════
 //  GET handler
 // ═══════════════════════════════════════════════════════════
@@ -454,7 +462,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 // ═══════════════════════════════════════════════════════════
 //  PATCH handler
 // ═══════════════════════════════════════════════════════════
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+async function handlePATCH(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const route = path.join("/");
   const body = await request.json();
@@ -478,10 +486,18 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   return json({ status: false, message: `Route PATCH /api/v1/${route} not found` }, 404);
 }
 
+export async function PATCH(request: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
+  const res = await handlePATCH(request, ctx);
+  if (res.status >= 200 && res.status < 400) {
+    saveDb();
+  }
+  return res;
+}
+
 // ═══════════════════════════════════════════════════════════
 //  PUT handler
 // ═══════════════════════════════════════════════════════════
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+async function handlePUT(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const body = await request.json();
 
@@ -539,10 +555,18 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   return json({ status: false, message: `Route PUT /api/v1/${path.join("/")} not found` }, 404);
 }
 
+export async function PUT(request: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
+  const res = await handlePUT(request, ctx);
+  if (res.status >= 200 && res.status < 400) {
+    saveDb();
+  }
+  return res;
+}
+
 // ═══════════════════════════════════════════════════════════
 //  DELETE handler
 // ═══════════════════════════════════════════════════════════
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+async function handleDELETE(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const route = path.join("/");
 
@@ -606,4 +630,12 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   }
 
   return json({ status: false, message: `Route DELETE /api/v1/${route} not found` }, 404);
+}
+
+export async function DELETE(request: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
+  const res = await handleDELETE(request, ctx);
+  if (res.status >= 200 && res.status < 400) {
+    saveDb();
+  }
+  return res;
 }
