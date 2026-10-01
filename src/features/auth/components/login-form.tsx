@@ -10,6 +10,7 @@ import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import Link from "next/link";
 import { Shield, GraduationCap, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
