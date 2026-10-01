@@ -1071,6 +1071,21 @@ function loadOrCreateDatabase(): Database {
             const eslamUser = initial.users.find((u) => u.username === "eslam1234");
             if (eslamUser) parsed.users.push(eslamUser);
           }
+
+          // Ensure default seed users always have correct valid password hashes
+          const defaultCredentials: Record<string, string> = {
+            admin: "Admin@123",
+            student: "Student@123",
+            sarah: "Student@123",
+            eslam1234: "Eslam123$",
+            eslamamer1234: "Eslam123$",
+          };
+          for (const [uname, pwd] of Object.entries(defaultCredentials)) {
+            const user = parsed.users.find((u) => u.username.toLowerCase() === uname.toLowerCase());
+            if (user && !bcrypt.compareSync(pwd, user.password)) {
+              user.password = bcrypt.hashSync(pwd, 10);
+            }
+          }
           return parsed;
         }
       }

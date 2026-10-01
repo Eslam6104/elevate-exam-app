@@ -51,18 +51,17 @@ export default function LoginForm() {
       }
 
       // Determine redirect target
-      let targetUrl = "/student/diplomas";
+      let targetUrl = (roleName === "admin" || u.toLowerCase().includes("admin")) ? "/admin/diplomas" : "/student/diplomas";
       try {
         const session = await getSession();
-        if (session?.user?.role?.toLowerCase() === "admin" || u.toLowerCase() === "admin") {
+        if (session?.user?.role?.toLowerCase() === "admin") {
           targetUrl = "/admin/diplomas";
         }
       } catch {
-        if (u.toLowerCase() === "admin") {
-          targetUrl = "/admin/diplomas";
-        }
+        // fallback to targetUrl
       }
 
+      toast.success("Logged in successfully! Redirecting...");
       // Navigate to destination
       window.location.href = targetUrl;
     } catch (err: unknown) {
